@@ -116,16 +116,7 @@ in installed and running as expected.
 The demonstration is reactive (point and click) and to a degree self documenting. A deeper explanation of the concepts behind this demo is 
 available at https://documentation.actusfrf.org/docs/dadfir3-demo/Demo%20User%20Guide.
 
-### The QUICK START Configuration as described above 
-If you want to install a dockerized mongodb database to persistently save risk entities created for your actus rf20 environment, it will reduce the risk of port collisions with any existing installed mongodb service to have this project specific mongodb listen on port 27018. 
-
-In that case you will want to bring up config2-docker-actus-rf20 as your docker compose network. 
-
-The config2 network requires that you download from the public fnparr/ dockerhub registry or build locally the images:
-*  fnparr/actus-server-rf20:mdb27018
-*  fnparr/actus-riskserver-ce:mdb27018
-
-### Downloading required images - view dockerfiles
+## Downloading required images - view dockerfiles
 A Prerequisite ( for ALL steps in using docker-actus-rf20) is that you must have docker (a docker daemon) installed in your environment. 
 Installing Docker Desktop is a convenient way to do this.
 
