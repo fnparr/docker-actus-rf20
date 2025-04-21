@@ -1,19 +1,14 @@
 # docker-actus-rf20 
 ## Overview
-This repository provides materials to build and configure a network of docker containers which can simulate the cash flows of financial contracts defined with the ACTUS standard using different risk scenarios - risk modelling environments. The risk scenarios are defined in a risk service which is a separate docker container from the ACTUS server providing the contract type sensitive cashflow simulation logic.
+This repository provides materials to configure and start a network of docker containers which can simulate the cash flows of financial contracts defined with the ACTUS standard using different risk scenarios, i.e. different risk modelling environments. The contract type sensitive cashflow simulation logic executes in an actus-server-rf20 docker container; the risk scenario management and handling executes in a separate actus-riskserver-ce docker container. 
 
-The repository includes source and dockerfiles  to build docker images for actus-server and actus-riskserver with rfAPI 2.0 .
-It also has docker compose files defining quickstart configurations for:
-* a basic ACTUS service configuration - ACTUS service, ACTUS RiskService, MongoDB containers
-* an ACTUS Demonstration configuration - ACTUS service, ACTUS RiskService, MongoDB, Rshiny ACTUS Demo containers
-* an ACTUS service configured to use an existing MongoDB service - ACTUS service, ACTUS Riskservice containers only  
+The repository contains docker compose files defining configurations for:
+* the ACTUS Quickstart network configuration - which includes containers for: actus-server-rf20, actus-riskserver-ce, and mongodb
+* an ACTUS Demonstration configuration - which includes an additional container for an actus-rshiny-demo
+
 ## Recommended QUICKSTART ACTUS SERVICE configuration 
-For new ACTUS users wanting to deploy and ACTUS contract simulation service quickly and start experimenting with it, it is recommended for an initial network to include:
-*  actus-server-rf20 docker container - with a contract simulation API and contract type specific logic to simulate future cashflows of any contract
-*  actus-riskserver-ce docker container - providing an external community-edition riskservice with a risk entity store api and the risk factor 2.0 interface to provide the actus-server-rf20 risk model observation results
-*  a mongodb docker container providing persistent storage for risk entities created using the risk entity store api to the actus-riskserver-ce
-
-In this configuration, installing the dockerized mongodb database container to listen on port 27018 will reduce the risk of port collisions with any existing installed mongodb service.
+* For new ACTUS users wanting to deploy and ACTUS contract simulation service quickly and start experimenting with it, the ACTUS quickstart configuration is recommended. 
+* The ACTUS demonstration configuration adds an interactive browser based demo showing simulation of contract and sample portfolio, for selected risk environments , together with plots of the generated cashflows. It also includes the capability to import and export sample portfolio from spreadsheets on your workstation. 
 
 ## QUICKSTART Deployment of an initial ACTUS SERVICE using Docker Compose - Steps
 ### Prerequisites
@@ -31,8 +26,8 @@ The teminal where you issued this command will start displaying console scripts 
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
 *    In the images panel, locally copied and saved images for:
-     * actus-server-rf20:27018
-     *   actus-riskserver-ce:27018
+     * actus-server-rf20:latest  ( it may also be tagged :v110test8) 
+     *   actus-riskserver-ce:latest ( it may also be tagged :v110test8 ) 
      *   mongodb
 *    in the containers panel
      *   a docker-compose network named quickstart-docker-actus-rf20
@@ -97,14 +92,14 @@ The teminal where you issued this command will start displaying console scripts 
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
 *    In the images panel, locally copied and saved images for:
-     * actus-server-rf20:27018
-     *   actus-riskserver-ce:27018
+     * actus-server-rf20:v110test8
+     *   actus-riskserver-ce:v110test8
      *   mongodb
 *    in the containers panel
      *   a docker-compose network named quickstart-docker-actus-rf20
      *   if you click to expand this - running containers: 
-         *    actus-server-rf20:nodb
-         *    actus-riskserver-ce:mdb27018
+         *    actus-server-rf20:v110test8
+         *    actus-riskserver-ce:v110test8 
          *    actus-rshiny-demo:b03
          *    mongodb
 
@@ -121,24 +116,6 @@ in installed and running as expected.
 The demonstration is reactive (point and click) and to a degree self documenting. A deeper explanation of the concepts behind this demo is 
 available at https://documentation.actusfrf.org/docs/dadfir3-demo/Demo%20User%20Guide.
 
-
-## Alternate docker-ACTUS network configurations
-### Using an already installed MongoDb service 
-If you have a mongodb database service already installed in your work environment, you may want to use that to persistently save created risk entities 
-(i.e. scenarios, reference Indexes, and behavior models). The default is that the mongodb service is installed to listen on port 27017. 
-
-In that case you will want to bring up config1-docker-actus-rf20.yml as your docker compose network.
-The no-mongo-docker-actus-rf20.yml network definition in place of quickstart-docker-actus-rf20.yml. 
-This will install containers for:
-*   actus-server-rf2
-*   actus-riskservice-ce
-
-The actus-riskserver will try to contect to a previously installed local mongodb service listening for requests on port 27017 and save risk modelling artifacts there. 
-
-It is also possible to explicitly download from the public fnparr/ dockerhub registry or build locally the images:
-*  fnparr/actus-server-rf20:mdb27017
-*  fnparr/actus-riskserver-ce:mdb27017
-
 ### The QUICK START Configuration as described above 
 If you want to install a dockerized mongodb database to persistently save risk entities created for your actus rf20 environment, it will reduce the risk of port collisions with any existing installed mongodb service to have this project specific mongodb listen on port 27018. 
 
@@ -148,42 +125,15 @@ The config2 network requires that you download from the public fnparr/ dockerhub
 *  fnparr/actus-server-rf20:mdb27018
 *  fnparr/actus-riskserver-ce:mdb27018
 
-### Downloading required images 
+### Downloading required images - view dockerfiles
 A Prerequisite ( for ALL steps in using docker-actus-rf20) is that you must have docker (a docker daemon) installed in your environment. 
 Installing Docker Desktop is a convenient way to do this.
 
-The terminal command:
-  > docker pull fnparr/actus-server-rf20:mdb27018
-will download and install the specified image.
+The images for actus-server-rf20 and actus-riskserver-ce are pulled from publicly accessible dockerhub/actusfrf repositories 
 
-Alternatively use the search bar in Docker Desktop to locate the image and request pull. 
- 
-### Creating and starting Docker Compose configurations of docker-actus-rf20 
-Steps.
-1. You must have Docker Desktop or some othe docker daemon installed in your environment
-2. Clone this git repository to your local environment.
-3. Download or build the required images - as listed above- to make them available locally
-   * downloading using docker pull comands is simpler
-   * building in your local environment is described below
-4. Go into  the docker-actus-rf20 folder
-   * For config1:  > docker compose -f config1-docker-actus-rf20.yml -p config1-docker-actus-rf20 up
-   * For config2:  > docker compose -f config2-docker-actus-rf20.yml -p config2-docker-actus-rf20 up 
+The source code and dockerfiles used to build these images can be viewed at:
+* https://github.com/actusfrf/actus-service.git
+* https://github.com/actusfrf/actus-riskservice.git 
 
-### Building images locally using the provided Dockerfiles
-For example - to build the image fnparr/actus-server-rf20:mdb27017 
-* go to the folder docker-actus-rf20/actus-server-rf20
-* edit file docker-actus-rf20/actus-server-rf20/actus-service/src/main/resource/application.properties to make sure spring.data.mongodb.port=27017
-* change it to this value if it was set to 27018
-* you need to populate docker-actus-rf20/actus-server-rf20/actus-core/src/main with java source code from https://github.com/actus-core/src/main/java branch rf2dev
-  * this can be done with a recursive copy cp -r on linux or MacOS
-* Issue the command: > docker build . -t fnparr/actus-server-rf20:mdb27017 --no-cache
-* the image will be visible as a local image in your Docker Desktop Dashboard.
-
-Setting the spring.data.mongodb.port=27018instead of 27107 and issuing the same docker build command will generate the :mdb27018 image.
-
-A similar process of:
-* copying in actus-core source java code into docker-actus-rf20/actus-riskserver-ce/actus-core/src/main/
-* setting the appropriate value of spring.data.mongodb.port in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/src/main/resources/application. properties 
-*  Issue the command: > docker build . -t fnparr/actus-riskserver-ce:mdb27017 --no-cache   
- will build that image. ( We have shown the 27017 case )      
-
+The build process for each of these images imports the actus-core.jar library. 
+You can request access to view soure code of this core ACTUS reference implementation library using the form at: https://www.actusfrf.org/developers 
