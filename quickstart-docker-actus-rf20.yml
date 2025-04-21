@@ -5,25 +5,23 @@ services:
     image: mongodb/mongodb-community-server:6.0-ubi8
     command: mongod --bind_ip_all
     ports:
-      - "27017:27017"  
+      - "27018:27017"  
     volumes:
       - mongo_data:/data/db
     networks:
       - actus-network
 
   actus-riskserver-ce:
-    image: mtoub/actus-riskserver-ce:mdb27018
+    image: actusfrf/actus-riskserver-ce:v110test8
     ports:
       - "8082:8082"
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/actusdb
     depends_on:
       - mongodb
     networks:
       - actus-network
 
   actus-server-rf20:
-    image: mtoub/actus-server-rf20:nodb
+    image: actusfrf/actus-server-rf20:v110test8
     ports:
       - "8083:8083"
     networks:
