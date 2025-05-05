@@ -22,7 +22,7 @@ The repository contains docker compose files defining configurations for:
 3.  Navigate to the ACTUS_BASE/docker-actus-rf20 folder
 4.  Issue the command: > docker compose -f quickstart-docker-actus-rf20.yml -p quickstart-docker-actus-rf20 up
 
-The teminal where you issued this command will start displaying console scripts of the started containers and network. 
+The terminal where you issued this command will start displaying console scripts of the started containers and network. 
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
 *    In the images panel, locally copied and saved images for:
