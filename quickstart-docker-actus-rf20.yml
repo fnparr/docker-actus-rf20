@@ -12,7 +12,7 @@ services:
       - actus-network
 
   actus-riskserver-ce:
-    image: actusfrf/actus-riskserver-ce:vdev1
+    image: actusfrf/actus-riskserver-ce:latest
     ports:
       - "8082:8082"
     depends_on:
@@ -21,7 +21,7 @@ services:
       - actus-network
 
   actus-server-rf20:
-    image: actusfrf/actus-server-rf20:vdev1
+    image: actusfrf/actus-server-rf20:latest
     ports:
       - "8083:8083"
     networks:

@@ -26,8 +26,8 @@ The terminal where you issued this command will start displaying console scripts
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
 *    In the images panel, locally copied and saved images for:
-     * actus-server-rf20:latest  ( it may also be tagged :v110test8) 
-     *   actus-riskserver-ce:latest ( it may also be tagged :v110test8 ) 
+     * actus-server-rf20:latest  ( it may also be tagged: v1.1.0.build1) 
+     *   actus-riskserver-ce:latest ( it may also be tagged: v1.1.0.build1 ) 
      *   mongodb
 *    in the containers panel
      *   a docker-compose network named quickstart-docker-actus-rf20
@@ -92,14 +92,14 @@ The teminal where you issued this command will start displaying console scripts 
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
 *    In the images panel, locally copied and saved images for:
-     * actus-server-rf20:v110test8
-     *   actus-riskserver-ce:v110test8
+     * actus-server-rf20:latest
+     *   actus-riskserver-ce:latest
      *   mongodb
 *    in the containers panel
      *   a docker-compose network named quickstart-docker-actus-rf20
      *   if you click to expand this - running containers: 
-         *    actus-server-rf20:v110test8
-         *    actus-riskserver-ce:v110test8 
+         *    actus-server-rf20:latest ( or v1.1.0.build1)
+         *    actus-riskserver-ce:latest ( or v1.1.0.build1)  
          *    actus-rshiny-demo:b03
          *    mongodb
 
